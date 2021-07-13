@@ -25,7 +25,7 @@ def getLogs(iam_apikey, url, workspace_id, filter, page_size_limit=DEFAULT_PAGE_
     service = getAssistant(iam_apikey, url, version)
     return getLogsInternal(service, workspace_id, filter, page_size_limit, page_num_limit)
 
-def getPaginatedLogsInternal(assistant, workspace_id, filter, page_size_limit=DEFAULT_PAGE_SIZE, cursor):
+def getPaginatedLogsInternal(assistant, workspace_id, filter, cursor, page_size_limit=DEFAULT_PAGE_SIZE):
     '''Fetches `page_size_limit` logs at a time through Watson Assistant log API, a maximum of `page_num_limit` times, and returns array of log events'''
     curs = cursor or None
     pages_retrieved = 0
