@@ -53,6 +53,8 @@ def getPaginatedLogsInternal(assistant, workspace_id, filter, cursor, page_size_
         curs = logs['pagination'].get('next_cursor', None)
         #Do not DOS the list_logs function!
         # time.sleep(3.0)
+    else:
+        curs = -1
 
     if 'logs' in logs:
        allLogs.extend(logs['logs'])
