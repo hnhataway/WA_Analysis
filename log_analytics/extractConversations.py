@@ -97,7 +97,7 @@ def logToRecord(log, customFields):
         elif 'nodes_visited' in log['response']['output']['debug']:
             record['nodes_visited']        = tuple (log['response']['output']['debug']['nodes_visited'])
         else:
-            record['nodes_visited']        = "()"
+            record['nodes_visited']        = ()
         
         if 'branch_exited_reason' in log['response']['context']['system']:
             record['branch_exited_reason'] = log['response']['context']['system']['branch_exited_reason']
