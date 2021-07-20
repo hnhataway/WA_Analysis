@@ -70,7 +70,12 @@ def getCustomFields(custom_field_names):
 def logToRecord(log, customFields):
         record = {}
         record['conversation_id']          = log['response']['context']['conversation_id']
-        record['dialog_turn_counter']      = log['response']['context']['system']['dialog_turn_counter']
+        #Location of dialog_turn_counter varies by WA version
+        if 'dialog_turn_counter' in log['response']['context']['system']:
+            record['dialog_turn_counter']  = log['response']['context']['system']['dialog_turn_counter']
+        else:
+            record['dialog_turn_counter']  = log['request']['context']['system']['dialog_turn_counter']
+
         record['request_timestamp']        = log['request_timestamp']
         record['response_timestamp']       = log['response_timestamp']
 
@@ -87,7 +92,10 @@ def logToRecord(log, customFields):
         if 'entities' in log['response'] and len(log['response']['entities']) > 0:
             record['entities']             = tuple ( log['response']['entities'] )
 
-        record['nodes_visited']            = tuple (log['response']['output']['nodes_visited'])
+        if 'nodes_visited' in log['response']['output'] and len(log['response']['entities']) > 0:
+            record['nodes_visited']        = tuple (log['response']['output']['nodes_visited'])
+        else if 'nodes_visited' in log['response']['output']['debug'] and len(log['response']['entities']) > 0:
+            record['nodes_visited']        = tuple (log['response']['output']['debug']['nodes_visited'])
         
         if 'branch_exited_reason' in log['response']['context']['system']:
             record['branch_exited_reason'] = log['response']['context']['system']['branch_exited_reason']
